@@ -1,6 +1,7 @@
 // config/reset.js
-import { pool } from './database.js'
 import './dotenv.js'
+import { pool } from './database.js'
+
 
 // Sample data (replace or expand later)
 const hackData = [

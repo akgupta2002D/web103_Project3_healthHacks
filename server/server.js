@@ -1,22 +1,45 @@
-import './config/dotenv.js'   // ensures .env is loaded
+// server/server.js
+import './config/dotenv.js'
 import express from 'express'
-import HealthHacks from './controllers/healthHacks.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import healthHacksRouter from './routes/healthHacks.js'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const app = express()
 app.use(express.json())
 
-app.get('/', (req, res) => res.send('Health Hacks API is running'))
+// Root-static: serve everything from ./public at the root path (/)
+const PUBLIC_DIR = path.resolve(__dirname, './public')
+app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }))
 
-// --- Separate endpoints (no Router mount) ---
-app.get('/api/health-hacks',        HealthHacks.getHealthHacks)
-app.get('/api/health-hacks/:id',    HealthHacks.getHealthHackById)
-app.post('/api/health-hacks',       HealthHacks.createHealthHack)
-app.put('/api/health-hacks/:id',    HealthHacks.updateHealthHack)
-app.delete('/api/health-hacks/:id', HealthHacks.deleteHealthHack)
-// --------------------------------------------
+// Root route -> index.html
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'))
+})
 
-app.use((req, res) => res.status(404).json({ error: 'Route not found' }))
+// Optional pretty route for detail page
+app.get('/hack', (_req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'hack.html'))
+})
 
+// API
+app.use('/api/health-hacks', healthHacksRouter)
+
+// Non-API 404 -> friendly page
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) return next()
+  res.status(404).sendFile(path.join(PUBLIC_DIR, '404.html'))
+})
+
+// API 404 JSON
+app.use((req, res) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Route not found' })
+  }
+  res.status(404).sendFile(path.join(PUBLIC_DIR, '404.html'))
+})
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`🚀 Server listening on port ${PORT}`))

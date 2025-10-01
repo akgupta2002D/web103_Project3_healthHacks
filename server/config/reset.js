@@ -1,27 +1,8 @@
 // config/reset.js
 import './dotenv.js'
 import { pool } from './database.js'
+import hackData from '../data/healthData.js'
 
-
-// Sample data (replace or expand later)
-const hackData = [
-  {
-    name: "Morning Cold Shower",
-    category: "Energy",
-    difficulty: "Easy",
-    description: "Boosts alertness and circulation by shocking the body awake.",
-    submittedBy: "Ankit",
-    submittedOn: new Date()
-  },
-  {
-    name: "Intermittent Fasting",
-    category: "Nutrition",
-    difficulty: "Medium",
-    description: "Improves metabolism and reduces insulin resistance.",
-    submittedBy: "Sam",
-    submittedOn: new Date()
-  }
-]
 
 const createHealthHacksTable = async () => {
   const query = `

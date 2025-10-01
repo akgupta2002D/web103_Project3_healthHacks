@@ -1,0 +1,168 @@
+/* ===============================
+   Health Hacks – Red & White Theme
+   Clean structure, readable spacing
+   =============================== */
+
+:root{
+  /* Palette */
+  --bg:#ffffff;
+  --panel:#ffffff;
+  --border:#e5e7eb;        /* light gray border */
+  --text:#111827;          /* near-black text */
+  --muted:#6b7280;         /* gray-500 */
+  --chip:#fff1f2;          /* rose-50 */
+  --brand:#e11d48;         /* rose-600 */
+  --brand-ink:#7f1025;     /* deep rose for contrast */
+
+  /* Effects & spacing */
+  --radius-lg:16px;
+  --radius-md:10px;
+  --shadow-sm:0 1px 2px rgba(17,24,39,.06);
+  --shadow-md:0 6px 24px rgba(17,24,39,.08);
+  --container:1100px;
+}
+
+*{ box-sizing:border-box }
+html, body{ height:100% }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+}
+
+/* ===== Header ===== */
+header{
+  position:sticky; top:0; z-index:10;
+  background:#ffffff;
+  border-bottom:1px solid var(--border);
+  padding:.9rem 1rem;
+  display:flex; justify-content:center; align-items:center;
+  box-shadow:var(--shadow-sm);
+}
+.header-container{
+  width:100%; max-width:var(--container);
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+}
+.header-left{ display:flex; align-items:center; gap:.65rem }
+.header-left img{ width:40px; height:40px; border-radius:8px }
+.header-left h1{ margin:0; font-size:1.15rem; letter-spacing:.2px }
+.header-right button{
+  background:#ffffff;
+  color:var(--brand);
+  border:1px solid var(--brand);
+  border-radius:var(--radius-md);
+  padding:.5rem .9rem;
+  cursor:pointer;
+  transition:background .18s ease, color .18s ease, transform .06s ease;
+}
+.header-right button:hover{ background:var(--brand); color:#fff }
+.header-right button:active{ transform:translateY(1px) }
+
+/* ===== Layout / Grid ===== */
+.grid{
+  max-width:var(--container);
+  margin:1.25rem auto 2.5rem;
+  padding:0 1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+  gap:1rem;
+}
+
+/* ===== Cards ===== */
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  box-shadow:var(--shadow-md);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 10px 32px rgba(17,24,39,.10) }
+
+.card .top{
+  height:150px;
+  background:#fff5f5;                    /* soft red header area */
+  background-size:cover; background-position:center;
+  border-bottom:1px solid var(--border);
+}
+.card .bottom{
+  padding:1rem 1rem 1.1rem;
+  display:flex; flex-direction:column; gap:.5rem;
+}
+.card h3{ margin:.1rem 0; font-size:1.06rem }
+.card p{ margin:0; color:var(--muted) }
+
+/* Link-as-button */
+.card a{
+  margin-top:.55rem; align-self:flex-start;
+  color:#fff; text-decoration:none;
+  background:var(--brand);
+  border:1px solid var(--brand);
+  padding:.4rem .7rem; border-radius:var(--radius-md);
+  font-weight:600; letter-spacing:.2px;
+  transition:filter .15s ease, transform .06s ease;
+}
+.card a:hover{ filter:brightness(1.05) }
+.card a:active{ transform:translateY(1px) }
+
+/* ===== Chips / Meta ===== */
+.chips{ display:flex; gap:.45rem; flex-wrap:wrap; margin-top:.1rem }
+.chip{
+  background:var(--chip);
+  border:1px solid #fecdd3;              /* rose-200 */
+  color:var(--brand-ink);
+  padding:.14rem .55rem;
+  border-radius:999px;
+  font-size:.78rem; font-weight:600;
+}
+
+/* ===== Detail Page ===== */
+.gift-info{
+  max-width:900px; margin:1.25rem auto 2.5rem; padding:0 1rem;
+  display:grid; grid-template-columns:1fr 1fr; gap:1.1rem;
+}
+.image-container img{
+  width:100%; border-radius:var(--radius-lg);
+  border:1px solid var(--border); box-shadow:var(--shadow-sm);
+}
+.gift-details{
+  background:#fff; border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:1.1rem;
+  box-shadow:var(--shadow-sm);
+}
+.gift-details h2{ margin-top:0; margin-bottom:.25rem }
+.gift-details p{ margin:.25rem 0; color:var(--muted) }
+
+/* ===== Responsiveness ===== */
+@media (max-width: 800px){
+  .gift-info{ grid-template-columns:1fr }
+}
+
+/* ===== Centered / Utility ===== */
+.center{
+  max-width:900px; margin:3rem auto; padding:0 1rem; text-align:center;
+}
+.center a{
+  color:var(--brand); text-decoration:none; border-bottom:1px solid rgba(225,29,72,.25);
+}
+.center a:hover{ border-bottom-color:var(--brand) }
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed; bottom:18px; left:50%;
+  transform:translateX(-50%);
+  background:#fff; color:var(--brand-ink);
+  border:1px solid #fecdd3;               /* rose-200 */
+  padding:.7rem 1rem; border-radius:var(--radius-md);
+  box-shadow:var(--shadow-md);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s, transform .25s;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px) }
+
+/* ===== Focus states for accessibility ===== */
+:where(a, button, .card a):focus-visible{
+  outline:2px solid var(--brand); outline-offset:2px; border-radius:8px;
+}
